@@ -3,7 +3,7 @@
 import numpy as numpy
 from scipy.stats import norm
 import Alpaca
-
+jbjhjhjjhhj
 Alpaca = Alpaca()
 # Defining variables
 
