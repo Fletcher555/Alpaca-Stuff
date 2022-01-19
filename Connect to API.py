@@ -8,3 +8,5 @@ class Alpaca(object):
         self.api = tradeapi.REST(self.key, self.secret, self.alpaca_endpoint)
 
 
+
+print("hello")
