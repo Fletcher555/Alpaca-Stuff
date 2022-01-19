@@ -4,17 +4,17 @@ import alpaca_trade_api as tradeapi
 import time
 
 
-apiPublicKey = 'PKSUP0209BL51C1WNTZQ'
-apiPrivateKey = '72ZkhXTWuU6BePsKKku9KzNdYEu3sQd0u205d6jn'
+apiPublicKey = 'PKFO1HKRRFY8ADDND4WG'
+apiPrivateKey = 'AwihaCN5bOr7H5iP6T5kpbjPZxHADDKbHQxPQjI4'
 alpacaEndPoint = 'https://paper-api.alpaca.markets'
-stock = ['GME', 'TSLA', 'CCJ', 'SPY', 'AAPl', 'MSFT', 'FB', 'NVDA', 'GOOG', 'BB', 'AMC', 'PLTR', 'DASH', 'WEED', 'DIS', 'KO']
+stock = ['GME', 'TSLA', 'CCJ', 'SPY', 'AAPL', 'MSFT', 'FB', 'NVDA', 'GOOG', 'BB', 'AMC', 'PLTR', 'DASH', 'MMM', 'DIS', 'KO']
 
 # instantiate REST API
 api = tradeapi.REST(apiPublicKey, apiPrivateKey, alpacaEndPoint, api_version='v2')
 
 
-def getStockData(stock, x):
-    stockData = api.get_barset(stock[x], 'minute', limit=3).df
+def getStockData(stock):
+    stockData = api.get_barset(stock, 'minute', limit = 3).df
     stockData.columns = stockData.columns.to_flat_index()
     stockData.columns = [x[1] for x in stockData.columns]
     stockData.reset_index(inplace=True)
@@ -29,13 +29,12 @@ def processData(stockData):
     else:
         return 'hold'
 
-def orderPlace(buySellHold, stockData , x):
+def orderPlace(buySellHold, stockData , stock):
     if(buySellHold == 'buy'):
-        if(api.get_account().cash > 10 * stockData.close[2]):
-            api.submit_order(symbol = stock[x], qty=10, side = 'buy', type = 'market', time_in_force = 'day')
-            return "buy"
+        api.submit_order(symbol = stock, qty=2, side = 'buy', type = 'market', time_in_force = 'day')
+        return "buy"
     elif(buySellHold == 'sell'):
-        api.submit_order(symbol=stock[x], qty=10, side='sell', type='market', time_in_force='day')
+        api.submit_order(symbol=stock, qty=2, side='sell', type='market', time_in_force='day')
         return "sell"
     elif(buySellHold == 'hold'):
         return "hold"
@@ -45,13 +44,16 @@ def orderPlace(buySellHold, stockData , x):
 
 def goTimeBaby():
     marketStatus = api.get_clock()
-    while(marketStatus == 'open'):
-        for x in range (15):
-            stockData = getStockData(stock[x] , x)
+    while(marketStatus.is_open == True):
+        for x in range (16):
+            stockData = getStockData(stock[x])
             buySellHold = processData(stockData)
-            result = orderPlace(buySellHold, getStockData, x)
-            time.sleep(60)
-        print(result)
+            result = orderPlace(buySellHold, getStockData, stock[x])
+            print(stock[x])
+            print(result)
+            time.sleep(1)
+        time.sleep(60)
+
     print("Market Closed ):")
 
 goTimeBaby()
