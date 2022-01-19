@@ -3,9 +3,6 @@
 import numpy as numpy
 from scipy.stats import norm
 import Alpaca
-jbjhjhjjhhj
-Alpaca = Alpaca()
-# Defining variables
 
 #r = float(input("Risk free interest rates: "))
 s = float(input("Stock price: "))
