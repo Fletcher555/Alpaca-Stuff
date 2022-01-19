@@ -1,4 +1,5 @@
 import alpaca_trade_api as tradeapi
+import time
 
 class Alpaca(object):
     def __init__(self):
@@ -6,9 +7,9 @@ class Alpaca(object):
         self.secret = 'RJR8rq4Wo6pP5EzM3ABURAFX1C7TYPucnFjsq5pR'
         self.alpaca_endpoint = 'https://paper-api.alpaca.markets'
         self.api = tradeapi.REST(self.key, self.secret, self.alpaca_endpoint)
-        self.symbol = 'AAPL'
+        self.symbol = 'SPY'
         self.current_order = None # when variable is not "none", we have open order
-        self.last_price = 1
+        self.last_price = 100
 
         # this bot is only limited to one position btw (short or long)
 
@@ -43,10 +44,10 @@ class Alpaca(object):
             print(f'Selling {sell_quantity} shares')
             self.current_order = self.api.submit_order(self.symbol,sell_quantity,'sell','limit','day',self.last_price)
 
-if __name__== '__main__':
+while __name__== '__main__':
     trades = Alpaca()
-    trades.sumbit_order(10) #amount of orders
-
+    trades.submit_order(3)
+    time.sleep(8)
 
 
 
