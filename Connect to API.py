@@ -7,6 +7,3 @@ class Alpaca(object):
         self.alpaca_endpoint = 'https://paper-api.alpaca.markets'
         self.api = tradeapi.REST(self.key, self.secret, self.alpaca_endpoint)
 
-
-
-print("hello")
