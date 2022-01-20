@@ -100,9 +100,9 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.Unnamed" />
-      <item itemvalue="Python.Connect to API" />
       <item itemvalue="Python.Buy Sell API Interaction" />
+      <item itemvalue="Python.Connect to API" />
+      <item itemvalue="Python.Unnamed" />
     </list>
     <recent_temporary>
       <list>
