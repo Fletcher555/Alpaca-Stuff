@@ -18,3 +18,4 @@ Candle Stick Trader V1 -- first version of a candle stick trader
 Upcoming projects:
 - an AI based candle stick trader focused on different sectors
 - a fast forward trading Api system that can be used to run code faster
+-
