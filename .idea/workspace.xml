@@ -168,12 +168,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.Unnamed" />
       <item itemvalue="Python.Buy Sell API Interaction" />
-      <item itemvalue="Python.Close All Existing Positions" />
-      <item itemvalue="Python.Candle Stick Trading Software" />
       <item itemvalue="Python.Candle Stick Trading Software V2" />
+      <item itemvalue="Python.Candle Stick Trading Software" />
+      <item itemvalue="Python.Close All Existing Positions" />
       <item itemvalue="Python.Fast Forward Api system test File" />
+      <item itemvalue="Python.Unnamed" />
     </list>
     <recent_temporary>
       <list>
