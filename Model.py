@@ -27,5 +27,3 @@ def blackScholes(r, s, k, t, sigma, type="c"):
         print("Error - Make sure all option parameters are correct ")
 
 print("Theoretical Option price is: ", round(blackScholes(r, s, k, t, sigma, type="c"),3))
-
-LALALALLALALA

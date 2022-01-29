@@ -1,11 +1,15 @@
-import alpaca_trade_api as tradeapi
-import time
 
-apiPublicKey = 'PKFO1HKRRFY8ADDND4WG'
-apiPrivateKey = 'AwihaCN5bOr7H5iP6T5kpbjPZxHADDKbHQxPQjI4'
-alpacaEndPoint = 'https://paper-api.alpaca.markets'
+from apiClass import info
 
-api = tradeapi.REST(apiPublicKey, apiPrivateKey, alpacaEndPoint, api_version='v2')
+import alpaca_trade_api as api
+
+
+i = info()
+apiPublicKey = i.apiPublic()
+apiPrivateKey = i.apiPrivate()
+alpacaEndPoint = i.apiLink()
+
+api = api.REST(apiPublicKey, apiPrivateKey, alpacaEndPoint, api_version='v2')
 
 
 def cancelOrders():

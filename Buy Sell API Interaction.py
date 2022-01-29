@@ -1,12 +1,12 @@
-
+import apiClass
 
 import alpaca_trade_api as tradeapi
 import time
 
 
-apiPublicKey = 'PKFO1HKRRFY8ADDND4WG'
-apiPrivateKey = 'AwihaCN5bOr7H5iP6T5kpbjPZxHADDKbHQxPQjI4'
-alpacaEndPoint = 'https://paper-api.alpaca.markets'
+apiPublicKey = apiClass.ApiCodes.apiPublic
+apiPrivateKey = apiClass.ApiCodes.apiPrivate
+alpacaEndPoint = apiClass.ApiCodes.apiLink
 stock = ['GME', 'TSLA', 'CCJ', 'SPY', 'AAPL', 'MSFT', 'FB', 'NVDA', 'GOOG', 'BB', 'AMC', 'PLTR', 'DASH', 'MMM', 'DIS', 'KO']
 
 # instantiate REST API
