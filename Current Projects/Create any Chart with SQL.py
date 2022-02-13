@@ -33,6 +33,7 @@ def takeInputs(inputRequest, inputArray):
 
 def takeCustomDataDensity():
     done = False
+    dataDensity = None
     while not done:
         dataDensity = input(
             "What would you like the custom data density to be? '1' View Options, or input accepted values: ")
@@ -54,58 +55,43 @@ def takeCustomDataDensity():
     return dataDensity
 
 
-def takeStartDate(stock):
+def takeStartDate(minDate, maxDate):
     err = True
+    startDateObj = None
     while err:
         startDate = input(
-            "What would you like the start datetime to be? '1' View Options, format is 'YY/MM/DD HH:MM:SS': or '2' for Min Date")
-        myCursor.execute("USE Stock_DataBase;")
-        query = "SELECT MIN(periodTimeStamp) FROM stockdata WHERE stockSymbol = '%s';"
-        myCursor.execute(query % stock)
-        minDate = myCursor.fetchone()
-
-        myCursor.execute("USE Stock_DataBase;")
-        query = "SELECT MAX(periodTimeStamp) FROM stockdata WHERE stockSymbol = '%s';"
-        myCursor.execute(query % stock)
-        maxDate = myCursor.fetchone()
+            "What would you like the start datetime to be? '1' View Options, format is 'YY/MM/DD HH:MM:SS' or '2' for Min Date: ")
 
         if startDate == '1':
-            print("The Min datetime that can be inputed is: " + str(minDate[
-            0]) + " Any datetime entered before this will automatically update to the min datetime. Also please note any Date entered after: " + str(
-                maxDate[0] - dt.timedelta(minutes=(5))) + " Will be invalid.")
+            print("The Min datetime that can be inputed is: " + str(minDate) +
+                  " Any datetime entered before this will automatically update to the min datetime. Also please note any Date entered after: " +
+                  str(maxDate - dt.timedelta(minutes=5)) + " Will be invalid.")
+
+        elif startDate == '2':
+            startDateObj = minDate
+            err = False
         else:
             try:
                 startDateObj = datetime.strptime(startDate, '%y/%m/%d %H:%M:%S')  # 21/06/06 9:30:00
-                if startDateObj <= minDate[0]:
-                    startDateObj = minDate[0]
+                if startDateObj <= minDate:
+                    startDateObj = minDate
 
-                if startDateObj < maxDate[0]:
+                if startDateObj < maxDate:
                     err = False
                 else:
                     print("Date is above Max date please try again.")
             except ValueError:
                 print("Invalid datetime please try again.")
 
-    return startDateObj, minDate[0], maxDate[0]
+    return startDateObj
 
-# def takeEndDate(stock, startDate):
-#     err = True
-#     while err:
-#         endDate = input(
-#             "What would you like the end datetime to be? '1' View Options, format is 'YY/MM/DD HH:MM:SS': ")
-#         myCursor.execute("USE Stock_DataBase;")
-#         query = "SELECT MAX(periodTimeStamp) FROM stockdata WHERE stockSymbol = '%s';"
-#         myCursor.execute(query % stock)
-#         maxDate = myCursor.fetchone()
-#         if endDate == '1':
-#             print("The Max date that can be inputed is: " + str(maxDate[0]) + "Any date that is inputed after this date will automatically be formated to this date")
-
-
-def run():
+def stockSymbol():
     stock = takeInputs(
         "Which stock would you like to generate a candlestick chart for? '1' View Options, or input accepted values: ",
         TestInputs.createAnyChartWithSQLStock)
+    return stock
 
+def dataDensity():
     dataDensity = takeInputs(
         "What would you like the data Density of your candlestick chart to be? '1' View Options, or input accepted values: ",
         TestInputs.createAnyChartWithSQLDataDensity)
@@ -113,10 +99,30 @@ def run():
     if dataDensity == 'Custom':
         dataDensity = takeCustomDataDensity()
 
-    startDate = takeStartDate(stock)
-    print(startDate)
+    return dataDensity
 
-    # endDate = takeEndDate(stock, startDate)
+def fetchMinMaxDate(stock):
+    myCursor.execute("USE Stock_DataBase;")
+    query = "SELECT MIN(periodTimeStamp) FROM stockdata WHERE stockSymbol = '%s';"
+    myCursor.execute(query % stock)
+    minDate = myCursor.fetchone()
+
+    myCursor.execute("USE Stock_DataBase;")
+    query = "SELECT MAX(periodTimeStamp) FROM stockdata WHERE stockSymbol = '%s';"
+    myCursor.execute(query % stock)
+    maxDate = myCursor.fetchone()
+
+    return minDate[0], maxDate[0]
+
+def run():
+    stock = stockSymbol()
+    density = dataDensity()
+    minMaxDate= fetchMinMaxDate(stock)
+    minDate = minMaxDate[0]
+    maxDate = minMaxDate[1]
+    startDate = takeStartDate(minDate, maxDate)
+
+    print(stock + density + str(startDate))
 
 
 run()
